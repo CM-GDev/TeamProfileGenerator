@@ -1,9 +1,9 @@
-# Professional README Generator
+# Team Profile Generator
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
   ## Description
   
-    - This is my second homework assignment using NODE.js for the Full Stack Web Developer course I'm enrolled in. The assigment was to create a command-line application that dynamically generates a HTML file from input provided by the user.
+    This is my second homework assignment using NODE.js for the Full Stack Web Developer course I'm enrolled in. The assigment was to create a command-line application that dynamically generates a HTML file from input provided by the user.
   
    
   ## Table of Contents

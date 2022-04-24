@@ -1,60 +1,10 @@
 //Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateHTML = require("./generateHTML")
 
 // Function for populating a README template literal with User's input
-const generateREADME = (data) =>
-  `# ${data.projectTitle}
-  [![License: ${data.license}](${data.license.shield})](${data.license.link})
-
-  ## Description
-  \`\`\`md
-  - ${data.descriptionMotivation}
-  - ${data.descriptionWhy}
-  - ${data.descriptionWhatLearned}
-  - ${data.descriptionAdd}
-  \`\`\`  
-  ## Table of Contents
-   
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Credits](#credits)
-  - [License](#license)
-  - [How To Contribute](#how_to_contribute)
-  - [Tests](#tests)
-  - [Questions](#questions)
-  
-  ## Installation
-  
-  ${data.installation}
-  
-  ## Usage
-  
-  ${data.usage}
-    
-  ## Credits
-  
-  ${data.credits}
-  
-  ## License
-  
-  ${data.license} License
-
-  Copyright (c) [2022] [${data.fullName}]
-  
-  ## How to Contribute
-  
-  - [Contributor Covenant](https://www.contributor-covenant.org/) 
-  - ${data.contribute}
-  
-  ## Tests
-  
-  ${data.test}
-  
-  ## Questions
-    
-  For any questions, you can reach me through my [GITHUB](${data.github}) or email: ${data.email} account. 
-  `;
+generateHTML(data);
 
 //Create an array of questions for user input
 const questions =[ 
@@ -198,7 +148,7 @@ function init() {
     const readMeContent = generateREADME(answers);
 // Create a function to write README file
     fs.writeFile("README.md", readMeContent, (err) =>
-      err ? console.log(err) : console.log("You have successfully created your README file!")
+      err ? console.log(err) : console.log("\n You have successfully created your HTML file!")
     );
   });
 }
