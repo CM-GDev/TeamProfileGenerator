@@ -11,9 +11,9 @@ const questions =[
   {//A greeting and brief description of the application
     type: "confirm",
     name: "introMssg",
-    message: `Hi! Welcome to Node README generator.
-    This application will create a high-quality, professional README file for your project.
-    PLease answer the following questions. When a question is not applicable, type "N/A". (Hit enter to continue)`,
+    message: `Welcome to your Team Profile Generator.
+    This application will generate an HTML webpage that displays summaries for each team member included in your team.
+    Hit enter to begin`,
     default: true,
   },  
   {

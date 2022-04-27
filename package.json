@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CM-GDev/ProfessionalReadMeGenerator#readme",
   "dependencies": {
-    "inquirer": "^8.2.2"
+    "inquirer": "^8.2.2",
+    "requirer": "^0.0.4"
   }
 }
