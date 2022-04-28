@@ -1,157 +1,249 @@
-//Include packages needed for this application
-const inquirer = require("inquirer");
+
+// Establishing external modules required for this code
+const inquirer = require('inquirer');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const generateInitHTML = require('./dist/generateInitHTML');
+const appendEngineer = require('./dist/appendEngineer');
+const appendIntern = require('./dist/appendIntern');
 const fs = require("fs");
-const generateHTML = require("./generateHTML")
 
-// Function for populating a README template literal with User's input
-generateHTML(data);
 
-//Create an array of questions for user input
-const questions =[ 
-  {//A greeting and brief description of the application
+// Initial questions for Manager's info
+const initQuestions = [
+    {// A greeting and brief description of the application
     type: "confirm",
     name: "introMssg",
     message: `Welcome to your Team Profile Generator.
-    This application will generate an HTML webpage that displays summaries for each team member included in your team.
-    Hit enter to begin`,
+    This application will generate an HTML webpage that displays summaries for each team member included in your team. We will start with the Manager's information first. Hit enter to begin`,
     default: true,
-  },  
-  {
-    type: "input",
-    name: "fullName",
-    message: "What is your full name?",
-  },
-  {
-    type: "input",
-    name: "projectTitle",
-    message: `What is the title of your project?`,
-  },
-  {
-    type: "input",
-    name: "github",
-    message: `What is the URL to your GitHub account?`,
-  },
-  {
-    type: "input",
-    name: "email",
-    message: `What is your email address?`,
-  },
-  {
-    type: "confirm",
-    name: "descriptionMssg",
-    message: `--------------------------------------
-    Provide a short description explaining the what, why, and how of your project. Use the following questions as guides (Hit enter to continue):`,
-    default: true,
-  },
-  {
-    type: "input",
-    name: "descriptionMotivation",
-    message: "What was your motivation or reason?",
-  },
-  {
-    type: "input",
-    name: "descriptionWhy",
-    message: "What problem does it solve?",
-  },
-  {
-    type: "input",
-    name: "descriptionWhatLearned",
-    message: "What did you learn?",
-  },
-  {
-    type: "input",
-    name: "descriptionAdd",
-    message: "Anything else you would like to add to your description section?",
-  },
-  {
-    type: "confirm",
-    name: "moreQuestions",
-    message: `--------------------------------------
-    The following questions are about Installation, Usage Information, Contribution Guidelines and Test Instructions. (Hit enter to continue):`,
-    default: true,
-  },
-  {
-    type: "input",
-    name: "installation",
-    message: "What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.",
-  },
-  {
-    type: "input",
-    name: "usage",
-    message: "Provide instructions and examples if any for use.",
-  },
-  {
-    type: "input",
-    name: "contribute",
-    message: "The Contributor Covenant (an industry standard) link will be included in the README for other developers to use as a guide for contributing to your project. Are there additional guidelines you would like to add for contributors to follow (Hit enter for no)?",
-  },
-  {
-    type: "input",
-    name: "test",
-    message: "Are there any tests for your application? If so, provide examples on how to run them here:",
-  },
-  {
-    type: "confirm",
-    name: "lastQuestions",
-    message: `--------------------------------------
-    The last questions are about Credits and type of License for your project: (Hit enter to continue):`,
-    default: true,
-  },
-  {
-    type: "input",
-    name: "credits",
-    message: "List your collaborators, if any, with links to their GitHub profiles. If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section. If you followed tutorials, include links to those here as well.",
-  },
-  {//Creating a checkbox input type for user to select one license for their project
-    type: 'checkbox',
-    message: 'A license lets other developers know what they can and cannot do with your project. Please select one from the following options:',
-    name: 'license',
-    choices: [
-      {
-        name: 'MIT',
-      },
-      {
-        name: 'ISC',
-      },
-      {
-        name: 'GNU v3.0',
-      },
-      {
-        name: 'Apache v2.0',
-      },
-    ], //Depending on what license the user selects, the appropriate links will populate the README file.
-    validate(answer) {
-      if (answer == "MIT") {
-        answer.link = 'https://opensource.org/licenses/MIT';
-        answer.shield = 'https://img.shields.io/badge/License-MIT-yellow.svg';
-        return true;
-      } else if (answer == "ISC"){
-        answer.link = 'https://opensource.org/licenses/ISC';
-        answer.shield = 'https://img.shields.io/badge/License-ISC-blue.svg'
-        return true
-      } else if(answer == 'GNU v3.0'){
-        answer.link = 'https://www.gnu.org/licenses/gpl-3.0';
-        answer.shield = 'https://img.shields.io/badge/License-GPLv3-blue.svg';
-        return true;
-      }else {
-        answer.link = 'https://opensource.org/licenses/Apache-2.0';
-        answer.shield = 'https://img.shields.io/badge/License-Apache_2.0-blue.svg';
-        return true;
-      }
     },
-  },
-];
+    {
+        type: 'input',
+        name: 'name',
+        message: "What's the name of the Manager?",
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What's the Manager's employee ID?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What's the Manager's email address?",
+        // validating correct email address format
+        validate(value) {
+            const pass = value.match(
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            );
+            if (pass){
+                return true;
+            }
+            return 'Please enter a valid email address'
+        },
+    },
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: "What's the Manager's office number?",
+    },
+    // Creating a checkbox input type for user to select additional team members
+    {
+        type: 'checkbox',
+        message: 'To add another team member, please select one from the following options',
+        name: 'optSelected',
+        choices: [
+        {
+            name: 'Engineer',
+        },
+        {
+            name: 'Intern',
+        },
+        ], //Depending on what option the user selects, the appropriate questions will follow
+        validate(answer) {
+        if (answer == "Engineer") {
+            // engQuests();
+            return true;
+        } else if (answer == "Intern"){
+            // internQuests();
+            return true
+        } else {
+            return true;
+        }
+        },
+    },
+ ];
 
-//Create a function to initialize app
-function init() {
-  inquirer.prompt(questions).then((answers) => {
-    const readMeContent = generateREADME(answers);
-// Create a function to write README file
-    fs.writeFile("README.md", readMeContent, (err) =>
-      err ? console.log(err) : console.log("\n You have successfully created your HTML file!")
-    );
-  });
-}
+// Questions about engineer team member
+ const engineerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What's the name of the Engineer?",
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the Engineer's employee ID?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What's the Engineer's email address?",
+        // validating correct email address format
+        validate(value) {
+            const pass = value.match(
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            );
+            if (pass){
+                return true;
+            }
+            return 'Please enter a valid email address'
+        },
+    },
+    {
+        type: 'input',
+        name: 'gitHub',
+        message: "What's the Engineer's GitHub username?",
+    },
+    //Creating a checkbox input type for user to select additional team members or exit the program
+    {
+        type: 'checkbox',
+        message: 'Would you like to add another team member? Please select from the following options',
+        name: 'optSelected',
+        choices: [
+        {
+            name: 'Engineer',
+        },
+        {
+            name: 'Intern',
+        },
+        {
+            name: 'Done building my team',
+        },
+        ], //Depending on what option the user selects, the appropriate questions will follow or in case of "done building my team" option, HTML will be generated
+        validate(answer) {
+        if (answer == "Engineer") {
+            engQuests();
+            return true;
+        } else if (answer == "Intern"){
+            internQuests();
+            return true
+        } else {
+            console.log(`-------------------
+            Open the Team.html file to view your generated Team Profile Webpage`);
+            return true;
+        }
+        },
+    },
+ ];
 
-//Function call to initialize app
-init();
+ // Questions about intern team member
+ const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What's the name of the Intern?",
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the Intern's employee ID?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What's the Intern's email address?",
+        // validating correct email address format
+        validate(value) {
+            const pass = value.match(
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            );
+            if (pass){
+                return true;
+            }
+            return 'Please enter a valid email address'
+        },
+    },
+    {
+        type: 'input',
+        name: 'school',
+        message: "What school is the Intern atteding or has graduated from?",
+    },
+    //Creating a checkbox input type for user to select additional team members or exit the program
+    {
+        type: 'checkbox',
+        message: 'Would you like to add another team member? Please select from the following options',
+        name: 'optSelected',
+        choices: [
+        {
+            name: 'Engineer',
+        },
+        {
+            name: 'Intern',
+        },
+        {
+            name: 'Done building my team',
+        },
+        ], //Depending on what option the user selects, the appropriate questions will follow or in case of "done building my team" option, HTML will be generated
+        validate(answer) {
+        if (answer == "Engineer") {
+            engQuests();
+            return true;
+        } else if (answer == "Intern"){
+            internQuests();
+            return true
+        } else {
+            console.log(`-------------------
+            Open the Team.html file to view your generated Team Profile Webpage`);
+            return true;
+        }
+        },
+    },
+ ];
+
+ function init() {
+   inquirer.prompt(initQuestions).then((answers) => {
+    // Creating new Manager(golf) object from Manager Class
+    const golf = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+    // Passing Manager's class information to generateInitHTML JS file
+    const initHTMLContent = generateInitHTML(golf);
+    // console.log(golf);
+    // Code using "fs" to write initial team HTML file
+    fs.writeFile("Team.html", initHTMLContent, (err) =>
+          err ? console.log(err) : console.log(`-----------------
+          You have successfully created your initial HTML file!`))
+   });
+ };
+
+ function engQuests() {
+    inquirer.prompt(engineerQuestions).then((answers) => {
+     // Creating new object Engineer(compChip)) object from Engineer Class
+     const compChip = new Engineer(answers.name, answers.id, answers.email, answers.gitHub);
+     // Passing compChip class information to appendEngineer JS file
+     const appendContent = appendEngineer(compChip);
+     // console.log(compChip);
+     // Code using "fs" to append Team.html file
+     fs.appendFile("Team.html", appendContent, (err) =>
+           err ? console.log(err) : console.log(`-----------------
+           You have successfully added the Engineer information!`))
+    });
+  }
+
+  function internQuests() {
+    inquirer.prompt(internQuestions).then((answers) => {
+     // Creating new object Intern object from Intern Class
+     const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+     // Passing Intern class information to appendIntern JS file
+     const appendContent = appendIntern(intern);
+     // console.log(intern);
+     // Code using "fs" to append Team.html file
+     fs.appendFile("Team.html", appendContent, (err) =>
+           err ? console.log(err) : console.log(`-----------------
+           You have successfully added the Intern information!`))
+    });
+  }
+ 
+ init();

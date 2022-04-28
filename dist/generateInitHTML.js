@@ -1,6 +1,6 @@
-// creating function for generating HTML
+// creating function for generating initial HTML with Manager info only
 
-const generateHTML = (data) => 
+const generateInitHTML = (data) => 
 `<!doctype html>
 <html lang="en">
     <head>
@@ -27,18 +27,18 @@ const generateHTML = (data) =>
                 <div class="col s12 m6 l4">
                     <div class="card cyan darken-2">
                         <div class="card-content white-text myCSSpadding">
-                          <span class="card-title">Card Title</span>
+                          <span class="card-title">${data.name}</span>
                           <span class="card-title"><i class="material-icons left">golf_course</i>Manager</span>
                         </div>
                         <div class="card-action white-text cyan">
                             <div class="row myCSSmargin">
-                                <p>ID:</p>
+                                <p>ID: ${data.id}</p>
                             </div>
                             <div class="row myCSSmargin">
-                                <p>Email:<a href="#">This is a link</a></p>
+                                <p>Email: <a href="mailto:${data.email}">${data.email}</a></p>
                             </div>
                             <div class="row myCSSmargin">
-                                <p>Office number:</p>
+                                <p>Office number:  ${data.officeNumber}</p>
                             </div>
                         </div>
                       </div>
@@ -47,10 +47,11 @@ const generateHTML = (data) =>
             </article>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- Calling my JS code -->
-    <!-- <script src="./assets/js/script.js"></script> -->
+    <!-- Calling my JS code for appending Engineer or Intern information -->
+    <script src="./dist/appendEngineer.js"></script>;
+    <script src="./dist/appendInter.js"></script>;
 
   </body>
 </html>`;
 
-module.exports = generateHTML;
+module.exports = generateInitHTML;
