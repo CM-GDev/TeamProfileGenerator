@@ -1,23 +1,23 @@
 {
-  "name": "professionalreadmegenerator",
+  "name": "teamprofilegenerator",
   "version": "1.0.0",
-  "description": "Easily create a README file by using this command-line application",
+  "description": "Easily create a HTML file for your team by using this command-line application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CM-GDev/ProfessionalReadMeGenerator.git"
+    "url": "git+https://github.com/CM-GDev/TeamProfileGenerator"
   },
   "author": "Cristobal M",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CM-GDev/ProfessionalReadMeGenerator/issues"
+    "url": "https://github.com/CM-GDev/TeamProfileGenerator/issues"
   },
-  "homepage": "https://github.com/CM-GDev/ProfessionalReadMeGenerator#readme",
+  "homepage": "https://github.com/CM-GDev/TeamProfileGenerator#readme",
   "dependencies": {
     "inquirer": "^8.2.2",
-    "requirer": "^0.0.4"
+    "jest": "^28.0.3"
   }
 }
