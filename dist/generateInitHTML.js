@@ -35,23 +35,14 @@ const generateInitHTML = (data) =>
                                 <p>ID: ${data.id}</p>
                             </div>
                             <div class="row myCSSmargin">
-                                <p>Email: <a href="mailto:${data.email}">${data.email}</a></p>
+                                <p>Email: <a class="waves-effect cyan-text text-darken-4" href="mailto:${data.email}">${data.email}</a></p>
                             </div>
                             <div class="row myCSSmargin">
                                 <p>Office number:  ${data.officeNumber}</p>
                             </div>
                         </div>
                       </div>
-                </div>
-            </div>
-            </article>
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- Calling my JS code for appending Engineer or Intern information -->
-    <script src="./dist/appendEngineer.js"></script>;
-    <script src="./dist/appendInter.js"></script>;
-
-  </body>
-</html>`;
+                </div>`
+            
 
 module.exports = generateInitHTML;

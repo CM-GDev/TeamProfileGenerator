@@ -1,4 +1,3 @@
-
 // Establishing external modules required for this code
 const inquirer = require('inquirer');
 const Manager = require('./lib/Manager');
@@ -7,17 +6,16 @@ const Intern = require('./lib/Intern');
 const generateInitHTML = require('./dist/generateInitHTML');
 const appendEngineer = require('./dist/appendEngineer');
 const appendIntern = require('./dist/appendIntern');
+const appendEnd = require('./dist/appendEnd')
 const fs = require("fs");
-
 
 // Initial questions for Manager's info
 const initQuestions = [
     {// A greeting and brief description of the application
-    type: "confirm",
-    name: "introMssg",
-    message: `Welcome to your Team Profile Generator.
-    This application will generate an HTML webpage that displays summaries for each team member included in your team. We will start with the Manager's information first. Hit enter to begin`,
-    default: true,
+        type: "confirm",
+        name: "introMssg",
+        message: "Welcome to your Team Profile Generator. This application will generate an HTML webpage displaying summaries for each team member in your team. We will start with the Manager's information first. Hit enter to begin",
+        default: true,
     },
     {
         type: 'input',
@@ -49,35 +47,16 @@ const initQuestions = [
         name: 'officeNumber',
         message: "What's the Manager's office number?",
     },
-    // Creating a checkbox input type for user to select additional team members
-    {
+    {// Creating a checkbox input type for user to select additional team members
         type: 'checkbox',
-        message: 'To add another team member, please select one from the following options',
+        message: 'To add another team member, please select an option from the following list',
         name: 'optSelected',
-        choices: [
-        {
-            name: 'Engineer',
-        },
-        {
-            name: 'Intern',
-        },
-        ], //Depending on what option the user selects, the appropriate questions will follow
-        validate(answer) {
-        if (answer == "Engineer") {
-            // engQuests();
-            return true;
-        } else if (answer == "Intern"){
-            // internQuests();
-            return true
-        } else {
-            return true;
-        }
-        },
+        choices: ['Engineer', 'Intern','Done building my team'],
     },
  ];
 
 // Questions about engineer team member
- const engineerQuestions = [
+const engineerQuestions = [
     {
         type: 'input',
         name: 'name',
@@ -108,40 +87,16 @@ const initQuestions = [
         name: 'gitHub',
         message: "What's the Engineer's GitHub username?",
     },
-    //Creating a checkbox input type for user to select additional team members or exit the program
-    {
+    {//Creating a checkbox input type for user to select additional team members or exit the program
         type: 'checkbox',
-        message: 'Would you like to add another team member? Please select from the following options',
+        message: 'Would you like to add another team member? Please select an option from the following list',
         name: 'optSelected',
-        choices: [
-        {
-            name: 'Engineer',
-        },
-        {
-            name: 'Intern',
-        },
-        {
-            name: 'Done building my team',
-        },
-        ], //Depending on what option the user selects, the appropriate questions will follow or in case of "done building my team" option, HTML will be generated
-        validate(answer) {
-        if (answer == "Engineer") {
-            engQuests();
-            return true;
-        } else if (answer == "Intern"){
-            internQuests();
-            return true
-        } else {
-            console.log(`-------------------
-            Open the Team.html file to view your generated Team Profile Webpage`);
-            return true;
-        }
-        },
+        choices: ['Engineer', 'Intern', 'Done building my team'],
     },
  ];
 
  // Questions about intern team member
- const internQuestions = [
+const internQuestions = [
     {
         type: 'input',
         name: 'name',
@@ -172,77 +127,86 @@ const initQuestions = [
         name: 'school',
         message: "What school is the Intern atteding or has graduated from?",
     },
-    //Creating a checkbox input type for user to select additional team members or exit the program
-    {
+    {//Creating a checkbox input type for user to select additional team members or exit the program
         type: 'checkbox',
-        message: 'Would you like to add another team member? Please select from the following options',
+        message: 'Would you like to add another team member? Please select an option from the following list',
         name: 'optSelected',
-        choices: [
-        {
-            name: 'Engineer',
-        },
-        {
-            name: 'Intern',
-        },
-        {
-            name: 'Done building my team',
-        },
-        ], //Depending on what option the user selects, the appropriate questions will follow or in case of "done building my team" option, HTML will be generated
-        validate(answer) {
-        if (answer == "Engineer") {
-            engQuests();
-            return true;
-        } else if (answer == "Intern"){
-            internQuests();
-            return true
-        } else {
-            console.log(`-------------------
-            Open the Team.html file to view your generated Team Profile Webpage`);
-            return true;
-        }
-        },
+        choices: ['Engineer','Intern','Done building my team'], 
     },
  ];
 
  function init() {
    inquirer.prompt(initQuestions).then((answers) => {
-    // Creating new Manager(golf) object from Manager Class
-    const golf = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-    // Passing Manager's class information to generateInitHTML JS file
-    const initHTMLContent = generateInitHTML(golf);
-    // console.log(golf);
-    // Code using "fs" to write initial team HTML file
-    fs.writeFile("Team.html", initHTMLContent, (err) =>
-          err ? console.log(err) : console.log(`-----------------
-          You have successfully created your initial HTML file!`))
-   });
+       // Creating new Manager(golf) object from Manager Class
+        const golf = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+        // Passing Manager's class information to generateInitHTML JS file
+        const initHTMLContent = generateInitHTML(golf);
+        // console.log(golf);
+        // Code using "fs" to write initial team HTML file
+        fs.writeFile("Team.html", initHTMLContent, (err) =>
+            err ? console.log(err) : console.log(`Manager information saved!
+            `));
+        setTimeout(() =>{
+            //Depending on what option the user selected, the appropriate questions will follow
+            if (answers.optSelected == 'Engineer') {
+                engQuests();
+            } else if (answers.optSelected == 'Intern'){
+                internQuests();
+            } else {
+                fs.appendFile("Team.html", appendEnd, (err) =>
+                err ? console.log(err) : console.log('Your Team Profile Page is Complete!'));
+            }
+        }, 1000);
+    });
  };
 
  function engQuests() {
     inquirer.prompt(engineerQuestions).then((answers) => {
-     // Creating new object Engineer(compChip)) object from Engineer Class
-     const compChip = new Engineer(answers.name, answers.id, answers.email, answers.gitHub);
-     // Passing compChip class information to appendEngineer JS file
-     const appendContent = appendEngineer(compChip);
-     // console.log(compChip);
-     // Code using "fs" to append Team.html file
-     fs.appendFile("Team.html", appendContent, (err) =>
-           err ? console.log(err) : console.log(`-----------------
-           You have successfully added the Engineer information!`))
+        // Creating new Engineer(compChip)) object from Engineer Class
+        const compChip = new Engineer(answers.name, answers.id, answers.email, answers.gitHub);
+        // console.log(compChip);
+        // Passing compChip class information to appendEngineer JS file
+        const appendContent = appendEngineer(compChip);
+        // Code using "fs" to append to Team.html file
+        fs.appendFile("Team.html", appendContent, (err) =>
+            err ? console.log(err) : console.log(`Engineer information saved!
+            `));
+        setTimeout(() =>{
+            //Depending on what option the user selected, the appropriate questions will follow or HTML page is done.
+            if (answers.optSelected == 'Engineer') {
+                engQuests();
+            } else if (answers.optSelected == 'Intern'){
+                internQuests();
+            } else {
+                fs.appendFile("Team.html", appendEnd, (err) =>
+                err ? console.log(err) : console.log('Your Team Profile Page is Complete!'));
+            }
+        }, 1000);
     });
   }
 
   function internQuests() {
     inquirer.prompt(internQuestions).then((answers) => {
-     // Creating new object Intern object from Intern Class
-     const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-     // Passing Intern class information to appendIntern JS file
-     const appendContent = appendIntern(intern);
-     // console.log(intern);
-     // Code using "fs" to append Team.html file
-     fs.appendFile("Team.html", appendContent, (err) =>
-           err ? console.log(err) : console.log(`-----------------
-           You have successfully added the Intern information!`))
+        // Creating new Intern object from Intern Class
+        const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+        // Passing Intern class information to appendIntern JS file
+        const appendContent = appendIntern(intern);
+        // console.log(intern);
+        // Code using "fs" to append to Team.html file
+        fs.appendFile("Team.html", appendContent, (err) =>
+            err ? console.log(err) : console.log(`Intern information saved!
+            `));
+        setTimeout(() =>{
+            //Depending on what option the user selected, the appropriate questions will follow or HTML page is done.
+            if (answers.optSelected == 'Engineer') {
+                engQuests();
+            } else if (answers.optSelected == 'Intern'){
+                internQuests();
+            } else {
+                fs.appendFile("Team.html", appendEnd, (err) =>
+                err ? console.log(err) : console.log('Your Team Profile Page is Complete!'));
+            }
+        }, 1000);
     });
   }
  
