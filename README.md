@@ -5,7 +5,7 @@
   
   - This is my second homework assignment using NODE.js for the Full Stack Web Developer course I'm enrolled in. The assigment was to create a command-line application that dynamically generates a Team Profile HTML page from input provided by the user.
   - The application lets the user add information for a Manager, Engineer, and Intern team member.
-  - By completing this assignment, I was able to implement lessons from my course, including: Set Jest.js test, Code JavaScript for Node.js application, Establish a parent Class and then later extend it to other new Classes, Implement several JS modules, work with a CSS framework, and apply Inquirer.js for the user interface on the command-line.
+  - By completing this assignment, I was able to implement lessons from my course, including: Set Jest.js tests, Code JavaScript for a Node.js application, Establish Classes , Implement several JS modules, work with a CSS framework, Use FS.js to create and append files, and finally apply Inquirer.js for the user interface on the command-line.
   - See the Usage Information of this README for a link to a walkthrough video that demonstrates the appication's functionality.
   
 
@@ -29,7 +29,7 @@
   To use this application, there are a few steps to folllow:
   1) Have [NODE.js](https://nodejs.org/en/download/) installed on your computer. 
   2) Download Inquirer from your command-line "npm install inquirer" 
-  4) Download Jest from your command-line "npm install jest"
+  4) Download Jest from your command-line "npm install jest" if you want to run the unit tests created for the different Class files.
   4) Clone my [GitHub](https://github.com/CM-GDev/TeamProfileGenerator) repo for this application.
   
   ## Usage
@@ -54,7 +54,7 @@
   
   ## Tests
   
-  In my [GitHub](https://github.com/CM-GDev/TeamProfileGenerator) repository, I included the Jest tests I created to verify my four Classes functionality.
+  In my [GitHub](https://github.com/CM-GDev/TeamProfileGenerator) repository, is included Jest tests created to verify the four Classes functionality.
   
   ## Questions
    
