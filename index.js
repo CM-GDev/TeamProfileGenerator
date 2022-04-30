@@ -47,8 +47,8 @@ const initQuestions = [
         name: 'officeNumber',
         message: "What's the Manager's office number?",
     },
-    {// Creating a checkbox input type for user to select additional team members
-        type: 'checkbox',
+    {// Creating a list input type for user to select additional team members
+        type: 'list',
         message: 'To add another team member, please select an option from the following list',
         name: 'optSelected',
         choices: ['Engineer', 'Intern','Done building my team'],
@@ -87,8 +87,8 @@ const engineerQuestions = [
         name: 'gitHub',
         message: "What's the Engineer's GitHub username?",
     },
-    {//Creating a checkbox input type for user to select additional team members or exit the program
-        type: 'checkbox',
+    {//Creating a list input type for user to select additional team members or exit the program
+        type: 'list',
         message: 'Would you like to add another team member? Please select an option from the following list',
         name: 'optSelected',
         choices: ['Engineer', 'Intern', 'Done building my team'],
@@ -127,8 +127,8 @@ const internQuestions = [
         name: 'school',
         message: "What school is the Intern atteding or has graduated from?",
     },
-    {//Creating a checkbox input type for user to select additional team members or exit the program
-        type: 'checkbox',
+    {//Creating a list input type for user to select additional team members or exit the program
+        type: 'list',
         message: 'Would you like to add another team member? Please select an option from the following list',
         name: 'optSelected',
         choices: ['Engineer','Intern','Done building my team'], 

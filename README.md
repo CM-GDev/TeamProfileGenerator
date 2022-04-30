@@ -34,7 +34,7 @@
   
   ## Usage
   
-  After installing the items above, use this [Walkthrough](https://youtube.com) video as a guide for using this application.
+  After installing the items above, use this [Walkthrough](https://youtu.be/GO807vkxKDg) video as a guide for using this application.
     
   ## Credits
 
@@ -54,7 +54,7 @@
   
   ## Tests
   
-  In my [GitHub](https://github.com/CM-GDev/TeamProfileGenerator) repository, is included Jest tests created to verify the four Classes functionality.
+  In my [GitHub](https://github.com/CM-GDev/TeamProfileGenerator) repository, I included Jest tests created to verify the four Classes functionality.
   
   ## Questions
    
